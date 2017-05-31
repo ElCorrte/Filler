@@ -3,5 +3,5 @@ project(filler)
 
 set(CMAKE_C_STANDARD 99)
 
-set(SOURCE_FILES library.c library.h)
+set(SOURCE_FILES filler.c filler.h)
 add_library(filler ${SOURCE_FILES})
