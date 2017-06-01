@@ -20,7 +20,10 @@ typedef struct	s_fil
 	char		me;
 	int 		map_x;
 	int 		map_y;
+	int 		piece_x;
+	int 		piece_y;
 	char 		*map;
+	char 		*piece;
 }				t_fil;
 
 void	filler(int i);
