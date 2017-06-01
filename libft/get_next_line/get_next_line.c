@@ -57,8 +57,9 @@ static void	ft_cat_str(char **str, int i)
 
 static int	ft_write(char **str, char **line)
 {
-	int	i;
-	int j;
+	int		i;
+	int		j;
+	char	*tmp;
 
 	i = 0;
 	j = 0;
@@ -66,7 +67,11 @@ static int	ft_write(char **str, char **line)
 	{
 		*line = ft_strsub(*str, 0, (size_t)i);
 		if (i == (int)ft_strlen(*str))
+		{
+			tmp = *str;
 			*str = ft_strnew(0);
+			free(tmp);
+		}
 	}
 	if ((**str && **line) || (!**line && **str == '\n') || (**line && !**str))
 		j = 1;
