@@ -13,41 +13,22 @@
 #include <fcntl.h>
 #include "filler.h"
 
-void	print_map_piece(char *str, int crdn_x, int crdn_y)
+void	find_coord_map(t_fil *fil)
 {
-	int 	y;
-	int 	x;
-	int 	cnt;
+	int x;
+	int y;
 
-	y = -1;
-	x = -1;
-	cnt = 0;
-	while (++x < crdn_x)
-	{
-		while(++y < crdn_y)
-			ft_printf("%c", str[cnt++]);
-		y = -1;
-		ft_printf("\n");
-	}
+	x = fil->map_x + 1;
+	y = fil->map_y + 1;
+
+
 }
 
-char	*create_map_piece(char *line, char *str)
+char	*create_map_piece(char *line)
 {
-	char	*tmp;
 	char 	*dst;
-	char 	*temp;
 
-	if (str != NULL)
-	{
-		temp = str;
-		dst = ft_strdup(str);
-		free(temp);
-	}
-	else
-		dst = ft_strnew(0);
-	tmp = dst;
-	dst = ft_strjoin(dst, line);
-	free(tmp);
+	dst = ft_strdup(line);
 	return (dst);
 }
 
@@ -55,18 +36,23 @@ void	detect_map(char *line, t_fil *fil, int fd)
 {
 	int	len;
 
-	fil->map != NULL ? ft_strdel(&fil->map) : 0;
+	fil->map != NULL ? ft_strdel(fil->map) : 0;
 	fil->map_x = ft_atoi(line);
 	len = len_value(fil->map_x);
 	fil->map_y = ft_atoi(line + (len + 1));
 	len = -2;
+	fil->map = (char **)malloc(sizeof(char *) * fil->map_x);
 	while (++len < fil->map_x)
 	{
 		get_next_line(fd, &line);
-		ft_isdigit(*line) ? fil->map = create_map_piece(line + 4, fil->map) : 0;
+		ft_isdigit(*line) ? fil->map[len] = create_map_piece(line + 4) : 0;
 		ft_strdel(&line);
 	}
-	print_map_piece(fil->map, fil->map_x, fil->map_y);
+	for (int x = 0; x < fil->map_x; x++)
+	{
+		ft_printf("%s\n", fil->map[x]);
+	}
+	find_coord_map(fil);
 }
 
 void	detect_player(char *c, t_fil *fil)
@@ -79,18 +65,20 @@ void 	detect_piece(char *line, t_fil *fil, int fd)
 {
 	int len;
 
-	fil->piece != NULL ? ft_strdel(&fil->piece) : 0;
+	fil->piece != NULL ? ft_strdel(fil->piece) : 0;
 	fil->piece_x = ft_atoi(line);
 	len = len_value(fil->piece_x);
 	fil->piece_y = ft_atoi(line + (len + 1));
 	len = -1;
+	fil->piece = (char **)malloc(sizeof(char *) * fil->piece_x);
 	while (++len < fil->piece_x)
 	{
 		get_next_line(fd, &line);
-		fil->piece = create_map_piece(line, fil->piece);
+		fil->piece[len] = create_map_piece(line);
 		ft_strdel(&line);
 	}
-	print_map_piece(fil->piece, fil->piece_x, fil->piece_y);
+	for (int x = 0; x < fil->piece_x; x++)
+		ft_printf("%s\n", fil->piece[x]);
 }
 
 int		main(void)
@@ -108,7 +96,6 @@ int		main(void)
 		!ft_strncmp(line, "Piece", 5) ? detect_piece(line + 5, &fil, fd) : 0;
 		ft_strdel(&line);
 	}
-	//while (1);
 	return (0);
 }
 
