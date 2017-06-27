@@ -24,7 +24,7 @@ void 	print(char **str, int cord)
 		ft_printf("%s\n", str[i]);
 }
 
-int		check_piece()
+int		check_piece(int play_x, int play_y)
 {
 	int cnt_x;
 	int cnt_y;
@@ -35,10 +35,10 @@ int		check_piece()
 	{
 		while (++cnt_y < fil.piece_y)
 		{
-			if (fil.map[fil.play_x + cnt_x][fil.play_y + cnt_y] == fil.me && fil.piece[cnt_x][cnt_y] == '*')
+			if (fil.map[play_x + cnt_x][play_y + cnt_y] == fil.me && fil.piece[cnt_x][cnt_y] == '*')
 				return (1);
-			write(1, &fil.piece[cnt_x][cnt_y], 1);
-			write(1, &fil.map[fil.play_x + cnt_x][fil.play_y + cnt_y], 1);
+			//write(1, &fil.piece[cnt_x][cnt_y], 1);
+			//write(1, &fil.map[play_x + cnt_x][play_y + cnt_y], 1);
 		}
 		//write(1, "\n", 1);
 		cnt_y = -1;
@@ -59,23 +59,25 @@ void 	clear_array(char **array, int len)
 void	find_coord_map()
 {
 	int ok;
+	int play_x;
+	int play_y;
 
-	fil.play_y = -1;
-	fil.play_x = -1;
-	while (++(fil.play_x) < fil.map_x)
+	play_y = -1;
+	play_x = -1;
+	while (++play_x < fil.map_x)
 	{
-		while (++(fil.play_x) < fil.map_y - fil.piece_y)
+		while (++play_y  < fil.map_y - fil.piece_y)
 		{
-			ok = check_piece();
+			ok = check_piece(play_x, play_y);
 			if (ok == 1)
 			{
 				clear_array(fil.map, fil.map_x);
 				clear_array(fil.piece, fil.piece_x);
-				printf("%d %d\n", fil.play_x, fil.play_y);
+				printf("%d %d\n", play_x, play_y);
 				return ;
 			}
 		}
-		fil.play_y = -1;
+		play_y = -1;
 	}
 }
 
