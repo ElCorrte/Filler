@@ -28,6 +28,8 @@ typedef struct	s_fil
 	char 		**piece;
 }				t_fil;
 
+t_fil			fil;
+
 void	filler(int i);
 
 #endif

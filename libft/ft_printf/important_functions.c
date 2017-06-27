@@ -6,11 +6,28 @@
 /*   By: yzakharc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 18:39:04 by yzakharc          #+#    #+#             */
-/*   Updated: 2017/05/04 15:49:15 by yzakharc         ###   ########.fr       */
+/*   Updated: 2017/06/08 15:18:03 by yzakharc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+int		zero_space_plus(t_pf *pf)
+{
+	if (pf->zero == 1 && pf->width > 0 && *pf->str != '-' && pf->plus == 1)
+	{
+		pf->fd ? ft_putchar_fd('+', pf->fd) : putchar_pf('+', pf);
+		pf->width--;
+		return (0);
+	}
+	if (pf->zero == 1 && pf->width > 0 && *pf->str != '-' && pf->space == 1)
+	{
+		pf->fd ? ft_putchar_fd(' ', pf->fd) : putchar_pf(' ', pf);
+		pf->width--;
+		return (0);
+	}
+	return (0);
+}
 
 void	ft_trunk_1(t_pf *pf)
 {

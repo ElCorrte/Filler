@@ -36,34 +36,34 @@ void	print_four_bytes(int tmp, int *i, t_pf *pf)
 {
 	tmp = *i >> 6 * 3;
 	tmp |= 240;
-	pf->str = add_to_string(pf->str, tmp);
+	pf->str = add_to_string(pf->str, (char)tmp);
 	tmp = *i >> 6 * 2;
 	tmp &= 63;
 	tmp |= 128;
-	pf->str = add_to_string(pf->str, tmp);
+	pf->str = add_to_string(pf->str, (char)tmp);
 	tmp = *i >> 6;
 	tmp &= 63;
 	tmp |= 128;
-	pf->str = add_to_string(pf->str, tmp);
+	pf->str = add_to_string(pf->str, (char)tmp);
 	tmp = *i;
 	tmp &= 63;
 	tmp |= 128;
-	pf->str = add_to_string(pf->str, tmp);
+	pf->str = add_to_string(pf->str, (char)tmp);
 }
 
 void	print_three_bytes(int tmp, int *i, t_pf *pf)
 {
 	tmp = *i >> 6 * 2;
 	tmp |= 224;
-	pf->str = add_to_string(pf->str, tmp);
+	pf->str = add_to_string(pf->str, (char)tmp);
 	tmp = *i >> 6;
 	tmp &= 63;
 	tmp |= 128;
-	pf->str = add_to_string(pf->str, tmp);
+	pf->str = add_to_string(pf->str, (char)tmp);
 	tmp = *i;
 	tmp &= 63;
 	tmp |= 128;
-	pf->str = add_to_string(pf->str, tmp);
+	pf->str = add_to_string(pf->str, (char)tmp);
 }
 
 void	print_two_bytes(int tmp, int *i, t_pf *pf, int *printed_width)
@@ -71,17 +71,17 @@ void	print_two_bytes(int tmp, int *i, t_pf *pf, int *printed_width)
 	if (*i < 128 && *printed_width++ <= pf->dot)
 	{
 		tmp = *i;
-		pf->str = add_to_string(pf->str, tmp);
+		pf->str = add_to_string(pf->str, (char)tmp);
 	}
-	if ((*i >= 128 && *i < 2048) && (*printed_width += 2) <= pf->dot)
+	if ((*i > 255 && *i < 2048) && (*printed_width += 2) <= pf->dot)
 	{
 		tmp = *i >> 6;
 		tmp |= 192;
-		pf->str = add_to_string(pf->str, tmp);
+		pf->str = add_to_string(pf->str, (char)tmp);
 		tmp = *i;
 		tmp &= 63;
 		tmp |= 128;
-		pf->str = add_to_string(pf->str, tmp);
+		pf->str = add_to_string(pf->str, (char)tmp);
 	}
 }
 
@@ -109,5 +109,5 @@ void	print_wchar(va_list *fm, t_pf *pf)
 			print_four_bytes(tmp, i, pf);
 		i++;
 	}
-	pf->dot = 0;
+	pf->dot == 2097152 ? pf->dot = 0 : 0;
 }

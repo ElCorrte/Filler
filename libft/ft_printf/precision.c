@@ -6,7 +6,7 @@
 /*   By: yzakharc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 15:27:48 by yzakharc          #+#    #+#             */
-/*   Updated: 2017/05/10 20:36:10 by yzakharc         ###   ########.fr       */
+/*   Updated: 2017/06/07 19:51:20 by yzakharc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int		ft_is_int(t_pf *pf)
 int		check_dot(t_pf *pf, const char **str, va_list *fm)
 {
 	(*str)++;
-	pf->dot = ft_isdigit(**str) ? ft_atoi(*str) : -1;
+	**str == '0' ? skip_zero(str) : 0;
+	pf->dot = ft_isdigit(**str) ? ft_atoi_pf(*str) : -1;
 	if (**str == '*')
 	{
 		pf->dot = va_arg(*fm, int);
@@ -45,7 +46,7 @@ int		check_dot(t_pf *pf, const char **str, va_list *fm)
 			pf->len_dot++;
 			pf->dot = -1;
 		}
-		*str += pf->len_dot;
+		(*str) += **str == '*' ? 1 : pf->len_dot;
 	}
 	return (0);
 }
@@ -55,16 +56,13 @@ void	precision_s(char *str, int dot, t_pf *pf)
 	int		len;
 	char	*dot_str;
 
-	if (pf->value == 0)
-	{
-		len = -1;
-		dot_str = strnew_pf((size_t)dot, pf);
-		dot_str[dot] = '\0';
-		while (++len < dot)
-			dot_str[len] = str[len];
-		pf->str = ft_strdup(dot_str);
-		ft_strdel(&dot_str);
-	}
+	len = -1;
+	dot_str = strnew_pf((size_t)dot, pf);
+	dot_str[dot] = '\0';
+	while (++len < dot)
+		dot_str[len] = str[len];
+	pf->str = ft_strdup(dot_str);
+	ft_strdel(&dot_str);
 	pf->dot = 0;
 }
 
