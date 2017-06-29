@@ -17,17 +17,20 @@
 
 typedef struct	s_fil
 {
-	char		me;
+	char		mine;
+	char 		enemy;
 	int 		map_x;
 	int 		map_y;
 	int 		piece_x;
 	int 		piece_y;
+	int 		print_x;
+	int 		print_y;
 	char 		**map;
 	char 		**piece;
 }				t_fil;
 
 t_fil			fil;
-
-void	filler(int i);
+int				g_fd;
+static int 		firth;
 
 #endif
