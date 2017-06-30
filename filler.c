@@ -14,64 +14,6 @@
 #include "filler.h"
 #include <stdio.h>
 
-int 	module_int(int digit)
-{
-	digit < 0 ? digit *= -1 : 0;
-	return (digit);
-}
-
-void	find_better_place(int x, int y, int place_1, int place_2)
-{
-	static int	*good;
-	int 		*bad;
-
-	if (firth == 0)
-	{
-		!good ? good = ft_memalloc(1) : 0;
-		good[0] = module_int(place_1 - x);
-		good[1] = module_int(place_2 - y);
-		firth++;
-	}
-	bad = ft_memalloc(1);
-	bad[0] = module_int(place_1 - x);
-	bad[1] = module_int(place_2 - y);
-	if (good[0] > bad[0] || good[1] > bad[1])
-	{
-		good[0] = bad[0];
-		good[1] = bad[1];
-	}
-	free(bad);
-	fil.print_x = module_int(place_1 - good[0]);
-	fil.print_y = module_int(place_2 - good[1]);
-}
-
-int		check_piece(int play_x, int play_y)
-{
-	int cnt_x;
-	int cnt_y;
-	int cnt_place;
-
-	cnt_x = -1;
-	cnt_y = -1;
-	cnt_place = 0;
-	while (++cnt_x < fil.piece_x)
-	{
-		while (++cnt_y < fil.piece_y)
-		{
-			if (fil.map[play_x + cnt_x][play_y + cnt_y] == fil.mine &&
-					fil.piece[cnt_x][cnt_y] == '*')
-				cnt_place++;
-			else if (fil.map[play_x + cnt_x][play_y + cnt_y] == fil.enemy &&
-					 fil.piece[cnt_x][cnt_y] == '*')
-				return (0);
-		}
-		cnt_y = -1;
-	}
-	if (cnt_place > 1)
-		return (0);
-	return (cnt_place == 1 ? 1 : 0);
-}
-
 void 	clear_array(char **array, int len)
 {
 	int	cnt;
@@ -94,11 +36,12 @@ void	find_coord_map()
 	{
 		while (++play_y  < fil.map_y - fil.piece_y)
 		{
-
 			ok = check_piece(play_x, play_y);
 			if (ok == 1)
 			{
-				find_better_place(play_x, play_y, fil.map_x - 1, fil.map_y - 1);
+				where_to_go();
+				dprintf(g_fd, "move : %d %d\n", fil.move_x, fil.move_y);
+				find_better_place(play_x, play_y, fil.move_x, fil.move_y);
 			}
 		}
 		play_y = -1;
@@ -107,6 +50,7 @@ void	find_coord_map()
 	clear_array(fil.piece, fil.piece_x);
 	firth = 0;
 	ft_printf("%d %d\n", fil.print_x, fil.print_y);
+	dprintf(g_fd, "x y %d %d\n", fil.print_x, fil.print_y);
 }
 
 void	detect_map(char *line)
