@@ -36,7 +36,7 @@ typedef struct	s_fil
 t_fil			fil;
 int				g_fd;
 
-void			where_to_go();
+void			where_to_go(int rad);
 void			find_better_place(int x, int y, int place_1, int place_2);
 int				check_piece(int play_x, int play_y);
 

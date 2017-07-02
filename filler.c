@@ -42,7 +42,7 @@ void	find_coord_map()
 			ok = check_piece(play_x, play_y);
 			if (ok == 1)
 			{
-				where_to_go();
+				where_to_go(1);
 				find_better_place(play_x, play_y, fil.move_x, fil.move_y);
 			}
 		}
