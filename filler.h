@@ -25,15 +25,16 @@ typedef struct	s_fil
 	int 		piece_y;
 	int 		print_x;
 	int 		print_y;
+	int 		must_print;
 	int 		move_x;
 	int 		move_y;
+	int 		firth;
 	char 		**map;
 	char 		**piece;
 }				t_fil;
 
 t_fil			fil;
 int				g_fd;
-static int 		firth;
 
 void			where_to_go();
 void			find_better_place(int x, int y, int place_1, int place_2);

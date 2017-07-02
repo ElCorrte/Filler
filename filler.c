@@ -32,15 +32,17 @@ void	find_coord_map()
 
 	play_y = -1;
 	play_x = -1;
-	while (++play_x < fil.map_x - fil.piece_x)
+	fil.firth = 0;
+	fil.must_print = -1;
+	dprintf(g_fd, "firth = 0 !OK! :)\n");
+	while (++play_x <= fil.map_x - fil.piece_x)
 	{
-		while (++play_y  < fil.map_y - fil.piece_y)
+		while (++play_y  <= fil.map_y - fil.piece_y)
 		{
 			ok = check_piece(play_x, play_y);
 			if (ok == 1)
 			{
 				where_to_go();
-				dprintf(g_fd, "move : %d %d\n", fil.move_x, fil.move_y);
 				find_better_place(play_x, play_y, fil.move_x, fil.move_y);
 			}
 		}
@@ -48,9 +50,8 @@ void	find_coord_map()
 	}
 	clear_array(fil.map, fil.map_x);
 	clear_array(fil.piece, fil.piece_x);
-	firth = 0;
-	ft_printf("%d %d\n", fil.print_x, fil.print_y);
-	dprintf(g_fd, "x y %d %d\n", fil.print_x, fil.print_y);
+	fil.must_print == 1 ? ft_printf("%d %d\n", fil.print_x, fil.print_y) : ft_printf("0 0\n");
+	dprintf(g_fd, "prin : x y %d %d\n", fil.print_x, fil.print_y);
 }
 
 void	detect_map(char *line)
@@ -94,7 +95,6 @@ int		main(void)
 
 	line = NULL;
 	g_fd = open("test", O_WRONLY);
-	//g_fd = 0;
 	while (get_next_line(0, &line))
 	{
 		dprintf(g_fd, "%s\n", line);

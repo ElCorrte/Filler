@@ -24,17 +24,24 @@ void	find_better_place(int x, int y, int place_1, int place_2)
 	static int	good;
 	int 		bad;
 
-	if (firth == 0)
+	if (fil.firth == 0)
 	{
+		dprintf(g_fd, "MOVE it: %d %d\n", place_1, place_2);
 		good = module_int(x - place_1) + module_int(y - place_2);
-		firth++;
+		fil.print_x = x;
+		fil.print_y = y;
+		dprintf(g_fd, "good : %d\n", good);
+		fil.firth++;
 	}
 	bad = module_int(x - place_1) + module_int(y - place_2);
+	dprintf(g_fd, "bad  : %d\n", bad);
 	if (bad <= good)
 	{
 		good = bad;
+		dprintf(g_fd, "new_good : %d\n", good);
 		fil.print_x = x;
 		fil.print_y = y;
+		fil.must_print = 1;
 	}
 }
 
@@ -65,18 +72,22 @@ int		check_piece(int play_x, int play_y)
 	return (cnt_place == 1 ? 1 : 0);
 }
 
-int		check_the_point_of_the_movement(int x, int y, int radius)
+int		check_the_point_of_the_move(int x, int y, int radius)
 {
 	int	i;
 	int j;
+	int end_x;
+	int end_y;
 
+	end_x = x + radius > fil.map_x - 1 ? fil.map_x - 1 : x + radius;
+	end_y = y + radius > fil.map_y - 1 ? fil.map_y -1 : y + radius;
 	i = x - radius;
 	j = y - radius;
 	i < 0 ? i = x : 0;
 	j < 0 ? j = y : 0;
-	while (i <= x + radius)
+	while (i <= end_x)
 	{
-		while (j <= y + radius)
+		while (j <= end_y)
 		{
 			if (fil.map[i][j] == fil.mine || fil.map[i][j] == fil.enemy)
 				return (0);
@@ -86,37 +97,28 @@ int		check_the_point_of_the_movement(int x, int y, int radius)
 		j < 0 ? j = y : 0;
 		i++;
 	}
+	fil.move_x = x;
+	fil.move_y = y;
 	return (1);
 }
 
 void	where_to_go()
 {
-	/*int radius;
+	int rad;
 
-	radius = 1;
-	if (check_the_point_of_the_movement(fil.map_x / 2, fil.map_y / 2, radius))
+	rad = 1;
+	if (check_the_point_of_the_move(fil.map_x / 2, fil.map_y / 2, rad));
+	else if (check_the_point_of_the_move(fil.map_x / 2, fil.map_y - 1, rad));
+	else if (check_the_point_of_the_move(fil.map_x / 2, 0, rad));
+	else if (check_the_point_of_the_move(0, fil.map_y / 2, rad));
+	else if (check_the_point_of_the_move(fil.map_x - 1, fil.map_y / 2, rad));
+	else if (check_the_point_of_the_move(0, fil.map_y - 1, rad));
+	else if (check_the_point_of_the_move(0, 0, rad));
+	else if (check_the_point_of_the_move(fil.map_x - 1, 0, rad));
+	else if (check_the_point_of_the_move(fil.map_x - 1, fil.map_y - 1, rad));
+	else
 	{
 		fil.move_x = fil.map_x / 2;
 		fil.move_y = fil.map_y / 2;
 	}
-	else if (check_the_point_of_the_movement(0, fil.map_y - 1, radius))
-	{
-		fil.move_x = 0;
-		fil.move_y = fil.map_y - 1;
-	}
-	else if (check_the_point_of_the_movement(fil.map_x - 1, 0, radius))
-	{
-		fil.move_x = fil.map_x - 1;
-		fil.move_y = 0;
-	}
-	else if (check_the_point_of_the_movement(fil.map_x -1, fil.map_y - 1, radius))
-	{
-		fil.move_x = fil.map_x - 1;
-		fil.move_y = fil.map_y - 1;
-	}
-	else
-	{*/
-		fil.move_x = 0;
-		fil.move_y = 0;
-	//}
 }
