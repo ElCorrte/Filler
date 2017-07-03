@@ -102,12 +102,17 @@ int		check_the_point_of_the_move(int x, int y, int radius)
 	return (1);
 }
 
-void	where_to_go(int rad)
+void	where_to_go()
 {
-	if (check_the_point_of_the_move(fil.map_x / 2, fil.map_y / 2, rad));
-	else if (check_the_point_of_the_move(fil.map_x / 2, 0, rad));
-	else if (check_the_point_of_the_move(fil.map_x / 2, fil.map_y - 1, rad));
+	int rad;
+
+	rad = 0;
+	rad = fil.map_y == 40 ? 3 : 0;
+	rad = fil.map_y == 100 ? 5 : 0;
+	//if (check_the_point_of_the_move(fil.map_x / 2, fil.map_y / 2, rad));
+	if (check_the_point_of_the_move(fil.map_x / 2, 0, rad));
 	else if (check_the_point_of_the_move(0, fil.map_y / 2, rad));
+	else if (check_the_point_of_the_move(fil.map_x / 2, fil.map_y - 1, rad));
 	else if (check_the_point_of_the_move(fil.map_x - 1, fil.map_y / 2, rad));
 	else if (check_the_point_of_the_move(0, fil.map_y - 1, rad));
 	else if (check_the_point_of_the_move(0, 0, rad));
