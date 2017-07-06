@@ -6,7 +6,7 @@
 /*   By: yzakharc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:43:06 by yzakharc          #+#    #+#             */
-/*   Updated: 2017/05/11 12:17:27 by yzakharc         ###   ########.fr       */
+/*   Updated: 2017/07/04 20:17:50 by yzakharc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,11 @@ int		ft_plus_space(t_pf *pf)
 	pl_sp = ft_strnew(1);
 	if (pf->spcr == 'i' || pf->spcr == 'd' || pf->spcr == 'D')
 	{
-		if (pf->plus == 1 && *pf->str != '-')
+		if ((pf->plus == 1 && *pf->str != '-') ||
+			(pf->space == 1 && !pf->plus && *pf->str != '-'))
 		{
-			pl_sp[0] = '+';
-			tmp = pf->str;
-			pf->str = ft_strjoin(pl_sp, pf->str);
-			ft_strdel(&tmp);
-		}
-		if (pf->space == 1 && !pf->plus && *pf->str != '-')
-		{
-			pl_sp[0] = ' ';
+			pl_sp[0] = pf->plus && !pf->space ? '+' : 0;
+			pl_sp[0] = pf->space && !pf->plus ? ' ' : 0;
 			tmp = pf->str;
 			pf->str = ft_strjoin(pl_sp, pf->str);
 			ft_strdel(&tmp);
@@ -74,7 +69,8 @@ void	use_flag(t_pf *pf)
 	if (!pf->dash_true)
 	{
 		if (pf->plus_one)
-			pf->fd ? ft_putstr_fd(pf->str + 1, pf->fd) : putstr_pf(pf->str + 1, pf);
+			pf->fd ? ft_putstr_fd(pf->str + 1, pf->fd) :
+				putstr_pf(pf->str + 1, pf);
 		else
 			pf->fd ? ft_putstr_fd(pf->str, pf->fd) : putstr_pf(pf->str, pf);
 		pf->str_clean == 1 ? ft_strdel(&pf->str) : 0;

@@ -6,7 +6,7 @@
 /*   By: yzakharc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/23 17:19:50 by yzakharc          #+#    #+#             */
-/*   Updated: 2016/12/12 20:12:24 by yzakharc         ###   ########.fr       */
+/*   Updated: 2017/07/04 20:08:34 by yzakharc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,6 @@ int					ft_nbri(int n);
 void				ft_nbrstr(int n, char *str, int i);
 void				ft_strrev(char *s);
 int					ft_cntwords(char const *str, char c);
+int					ft_module_int(int digit);
 
 #endif

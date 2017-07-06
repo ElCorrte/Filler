@@ -6,13 +6,13 @@
 /*   By: yzakharc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 22:50:38 by yzakharc          #+#    #+#             */
-/*   Updated: 2017/06/05 20:07:02 by yzakharc         ###   ########.fr       */
+/*   Updated: 2017/07/04 20:10:00 by yzakharc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	remove_unnecessary(t_pf *pf)
+void		remove_unnecessary(t_pf *pf)
 {
 	int len;
 
@@ -37,13 +37,13 @@ void	remove_unnecessary(t_pf *pf)
 		pf->sharp = 0;
 }
 
-void	putchar_pf(char c, t_pf *pf)
+void		putchar_pf(char c, t_pf *pf)
 {
 	write(1, &c, 1);
 	pf->print_smb++;
 }
 
-void	putstr_pf(char const *s, t_pf *pf)
+void		putstr_pf(char const *s, t_pf *pf)
 {
 	if (s == NULL)
 		return ;
@@ -52,7 +52,7 @@ void	putstr_pf(char const *s, t_pf *pf)
 	pf->spcr == 'c' && *pf->str == 0 ? putchar_pf(0, pf) : 0;
 }
 
-void	ft_sharp(t_pf *pf)
+void		ft_sharp(t_pf *pf)
 {
 	pf->spcr == 'o' && pf->value > 0 ? pf->dot = 0 : 0;
 	if ((*pf->str != '0' && pf->dot != -1) || pf->spcr == 'p' ||\
